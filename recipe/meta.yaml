@@ -6,28 +6,32 @@ package:
   version: {{ version }}
 
 source:
-  - url: "https://pypi.io/packages/source/{{ name[0] }}/{{ name }}/{{ name }}-{{ version }}.tar.gz"
+    url: https://pypi.io/packages/source/{{ name[0] }}/{{ name }}/ffmpeg-python-{{ version }}.tar.gz
     sha256: 65225db34627c578ef0e11c8b1eb528bb35e024752f6f10b78c011f6f64c4127
 
 build:
-  number: 0
-  script: "{{ PYTHON }} -m pip install . -vv"
+  number: 1
+  script: {{ PYTHON }} -m pip install . -vv --no-deps --no-build-isolation
   noarch: python
 
 requirements:
   host:
-    - python
+    - python {{ python_min }}
     - pip
     - pytest-runner
   run:
-    - python
+    - python >={{ python_min }}
     - ffmpeg
     - future
 
 test:
   imports:
     - ffmpeg
-
+  commands:
+    - pip check
+  requires:
+    - pip
+    - python {{ python_min }}
 about:
   home: https://github.com/kkroening/ffmpeg-python
   license: Apache-2.0
