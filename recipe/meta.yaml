@@ -10,21 +10,23 @@ source:
     sha256: 65225db34627c578ef0e11c8b1eb528bb35e024752f6f10b78c011f6f64c4127
 
 build:
-  number: 0
+  number: 1
   script: "{{ PYTHON }} -m pip install . -vv"
   noarch: python
 
 requirements:
   host:
-    - python
+    - python {{ python_min }}
     - pip
     - pytest-runner
   run:
-    - python
+    - python >={{ python_min }}
     - ffmpeg
     - future
 
 test:
+  requires:
+    - python {{ python_min }}
   imports:
     - ffmpeg
 
